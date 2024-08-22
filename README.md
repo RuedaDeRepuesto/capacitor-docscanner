@@ -69,6 +69,6 @@ Configuration options for the document scanning process.
 
 | Prop           | Type                | Description                                                                                                                                                                          |
 | -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`maxScans`** | <code>number</code> | The maximum number of documents that can be scanned. If not provided, the scanner will allow scanning a default number of documents. Note: This option is only supported on Android. |
+| **`maxScans`** | <code>number</code> | The maximum number of documents that can be scanned. If not provided, only one document will be scanned. Note: This option is only supported on Android. |
 
 </docgen-api>
