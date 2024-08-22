@@ -9,14 +9,18 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "DocScanner")
 public class DocScannerPlugin extends Plugin {
 
-    private DocScanner implementation = new DocScanner();
+    private DocScanner implementation;
 
     @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
+    public void scan(PluginCall call) {
+        Integer max = call.getInt("maxScans",1);
+        implementation.startScan(call,max);
+    }
 
-        JSObject ret = new JSObject();
-        ret.put("value", implementation.echo(value));
-        call.resolve(ret);
+
+    @Override
+    public void load() {
+        System.out.println("Cargando plugin docscanner");
+        implementation = new DocScanner(getBridge());
     }
 }
