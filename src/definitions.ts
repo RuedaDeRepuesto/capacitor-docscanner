@@ -18,8 +18,8 @@ export interface DocScannerPlugin {
 export interface DocScanOpts {
   /**
    * The maximum number of documents that can be scanned.
-   * If not provided, the scanner will allow scanning a default number of documents.
-   * Note: This option is only supported on Android.
+   * If not provided, the scanner will scan only one
+   * Note: This option is only supported on Android, in ios is ignored.
    */
   maxScans?: number;
 }

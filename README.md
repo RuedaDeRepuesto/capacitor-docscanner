@@ -21,6 +21,13 @@ npm install capacitor-docscanner
 npx cap sync
 ```
 
+### iOS configuration
+iOS requires the following usage description be added and filled out for your app in Info.plist:
+
+```
+NSCameraUsageDescription 
+```
+
 ## API
 
 <docgen-index>
@@ -67,8 +74,8 @@ The result of a document scanning operation.
 
 Configuration options for the document scanning process.
 
-| Prop           | Type                | Description                                                                                                                                                                          |
-| -------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`maxScans`** | <code>number</code> | The maximum number of documents that can be scanned. If not provided, only one document will be scanned. Note: This option is only supported on Android. |
+| Prop           | Type                | Description                                                                                                                                                             |
+| -------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`maxScans`** | <code>number</code> | The maximum number of documents that can be scanned. If not provided, the scanner will scan only one Note: This option is only supported on Android, in ios is ignored. |
 
 </docgen-api>
