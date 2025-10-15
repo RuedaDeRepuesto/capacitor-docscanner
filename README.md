@@ -12,6 +12,7 @@ See the table below for details.
 | Version | Description                    | Capacitor Version |
 |---------|--------------------------------|-------------------|
 | 0.0.1   | Initial release.               |         6         |
+| 0.0.2   | Cap 7 install.                 |         6-7       |
 
 
 ## Install
