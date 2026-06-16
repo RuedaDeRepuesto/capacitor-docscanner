@@ -13,6 +13,7 @@ See the table below for details.
 |---------|--------------------------------|-------------------|
 | 0.0.1   | Initial release.               |         6         |
 | 0.0.2   | Cap 7 install.                 |         6-7       |
+| 8.0.0   | Cap 8 install.                 |         8         |
 
 
 ## Install
