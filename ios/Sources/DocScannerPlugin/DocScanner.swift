@@ -1,7 +1,7 @@
 import Foundation
 import VisionKit
 
-@objc public class DocScanner: NSObject, VNDocumentCameraViewControllerDelegate {
+@objc public class DocScanner: NSObject, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate {
     
     private var viewController: UIViewController?
     
@@ -26,8 +26,9 @@ import VisionKit
         }
         DispatchQueue.main.async {
             let vc = VNDocumentCameraViewController()
-        
+            vc.modalPresentationStyle = .pageSheet
             vc.delegate = self
+            vc.presentationController?.delegate = self
             self.viewController?.present(vc, animated: true)
         }
     }
@@ -47,20 +48,42 @@ import VisionKit
     ) {
         var scans:[String] = []
         
-        for page in 0...scan.pageCount-1 {
-            guard let imageData:Data = scan.imageOfPage(at: page)
-                .jpegData(compressionQuality: CGFloat(100)) else {
-                    exitCameraViewController(vc: controller)
-                    self.onError("Cannot get image data")
-                    return;
-                }
+        for page in 0..<scan.pageCount {
+            var image = scan.imageOfPage(at: page)
+            
+            image = resizeImage(image: image, maxDimension: 1080.0) ?? image
+            
+            guard let imageData:Data = image.jpegData(compressionQuality: 0.8) else {
+                exitCameraViewController(vc: controller)
+                self.onError("Cannot get image data")
+                return
+            }
             
             let base64 = imageData.base64EncodedString()
             scans.append(base64)
-            
         }
         exitCameraViewController(vc: controller)
         self.onScanned(scans)
+    }
+    
+    private func resizeImage(image: UIImage, maxDimension: CGFloat) -> UIImage? {
+        let size = image.size
+        let maxSide = max(size.width, size.height)
+        
+        if maxSide <= maxDimension {
+            return image
+        }
+        
+        let scale = maxDimension / maxSide
+        let newSize = CGSize(width: size.width * scale, height: size.height * scale)
+        
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1.0
+        let renderer = UIGraphicsImageRenderer(size: newSize, format: format)
+        
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: newSize))
+        }
     }
     
     
@@ -78,5 +101,10 @@ import VisionKit
             
         exitCameraViewController(vc: controller)
         self.onError(error.localizedDescription)
+    }
+    
+    // UIAdaptivePresentationControllerDelegate method for swipe-to-dismiss
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        self.onError("User canceled")
     }
 }
